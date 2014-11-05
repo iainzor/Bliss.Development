@@ -9,7 +9,7 @@ docs.config(["$routeProvider", function($routeProvider) {
 				return r.query().$promise;
 			}]
 		}
-	}).when("/docs/:moduleId/:action?", {
+	}).when("/docs/modules/:moduleId/:action?", {
 		templateUrl: function(params) {
 			var id = params.moduleId;
 			var action = params.action || "index";

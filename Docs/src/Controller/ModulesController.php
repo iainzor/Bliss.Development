@@ -13,7 +13,7 @@ class ModulesController extends \Bliss\Controller\AbstractController
 			$modules[] = [
 				"id" => $module->name(),
 				"label" => String::toCamelCase($module->name()),
-				"path" => "docs/{$module->name()}"
+				"path" => "docs/modules/{$module->name()}"
 			];
 		}
 		

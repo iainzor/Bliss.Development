@@ -5,6 +5,11 @@ use Bliss\String;
 
 class ModuleController extends \Bliss\Controller\AbstractController
 {
+	public function indexAction()
+	{
+		return [];
+	}
+	
 	public function renderAction()
 	{
 		$request = $this->app->request();
@@ -13,7 +18,7 @@ class ModuleController extends \Bliss\Controller\AbstractController
 		$module = $this->app->module($moduleName);
 		$filename = $module->resolvePath("docs/{$actionName}.html");
 		$contents = $this->_generateContents($filename);
-		$pages = $this->_generatePages($module->resolvePath("docs"), $moduleName);
+		$pages = $this->_generatePages($module->resolvePath("docs"), "modules/". $moduleName);
 		$activePage = call_user_func(function($pages) {
 			foreach ($pages as $page) {
 				if ($page["active"]) {
@@ -61,18 +66,19 @@ class ModuleController extends \Bliss\Controller\AbstractController
 
 				$basename = $file->getBasename(".html");
 				$label = ($basename === "index") ? "Overview" : String::formatSentences($basename);
+				$uri = "docs/". $path ."/". $basename;
 
 				if ($file->isFile() && $file->getExtension() === "html") {
 					$pages[] = [
 						"label" => $label,
-						"path" => "docs/". $path ."/". $basename,
+						"path" => $uri,
 						"active" => $basename === $currentAction 
 					];
 				}
 
 				$dir = $file->getPath() ."/". $basename;
 				if (is_dir($dir)) {
-					$pages = array_merge($pages, $this->_generatePages($file->getPathname(), $path ."/". $basename));
+					$pages = array_merge($pages, $this->_generatePages($file->getPathname(), $uri));
 				}
 			}
 

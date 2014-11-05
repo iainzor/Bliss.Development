@@ -8,7 +8,7 @@ implements RouteProvider
 {
 	public function initRouter(\Router\Module $router) 
 	{
-		$router->when("/^docs\/modules\/([a-z0-9-]+)\/?([a-z0-9-]+)?\.?([a-z0-9]+)?$/i", [
+		$router->when("/^docs\/modules\/([a-z0-9-]+)\/?([a-z0-9-]+)?\.([a-z0-9]+)$/i", [
 			1 => "moduleName",
 			2 => "actionName",
 			3 => "format"
@@ -16,6 +16,10 @@ implements RouteProvider
 			"module" => "docs",
 			"controller" => "module",
 			"action" => "render"
+		])->when("/^docs\/modules\/[a-z0-9-]+\/[a-z0-9-]+?$/i", [], [
+			"module" => "docs",
+			"controller" => "module",
+			"action" => "index"
 		]);
 	}
 }
