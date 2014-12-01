@@ -1,21 +1,37 @@
+<div class="alert alert-info">
+	<i class="glyphicon glyphicon-warning-sign" style="font-size: 16px; margin-right: 10px;"></i>
+	Please be aware that this documentation, as well as the code itself, is very much a work in progress and
+	subject to change at any time.
+</div>
+
+<aside id="toc" class="panel panel-default">
+	<header class="panel-heading">
+		Table of Contents
+	</header>
+	<section class="panel-body">
+		<ul class="list-unstyled">
+			<li ng-repeat="module in modules">
+				<h4>
+					<a href="./{{module.path}}">{{module.label}}</a>
+				</h4>
+				<ul ng-if="module.pages.length">
+					<li ng-repeat="page in module.pages">
+						<a href="./{{page.path}}">{{page.label}}</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</section>
+</aside>
+
 <header class="page-header">
 	<h4>
 		<a href="./docs">Documentation</a> /
-		<a href="./docs/{{module.path}}">{{module.label}}</a>
+		<a href="./{{module.path}}">{{module.label}}</a>
 	</h4>
 	<h1>{{module.page.label || module.label + " Module"}}</h1>
 </header>
 
-<div class="row">
-	<div class="col-sm-3" ng-if="!module.isEmpty && module.pages.length > 1">
-		<ul class="nav nav-pills nav-stacked">
-			<li ng-repeat="page in module.pages" ng-class="{active:page.active}">
-				<a href="./{{page.path}}">{{page.label}}</a>
-			</li>
-		</ul>
-	</div>
-	<div ng-class="{'col-sm-9':!module.isEmpty && module.pages.length > 1, 'col-sm-12':module.isEmpty || module.pages.length < 2}">
-		<?=$this->get("contents")?>
-	</div>
-	
+<div id="docs">
+	<?=$this->get("contents")?>
 </div>

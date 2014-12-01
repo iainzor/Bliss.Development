@@ -1,13 +1,41 @@
 docs.config(["$routeProvider", function($routeProvider) {
+	var _moduleResolve = ["$resource", "$route", function($resource, $route) {
+		var id = $route.current.params.moduleId || "bliss";
+		var action = $route.current.params.action;
+		var path = "./docs/modules/"+ id;
+		
+		if (action) {
+			path += "/"+ action;
+		}
+		
+		var r = $resource(path +".json", {}, {
+			get: {
+				method: "GET",
+				cache: true
+			}
+		});
+
+		return r.get().$promise;
+	}];
+
+	var _moduleListResolve = ["$resource", function($resource) {
+		var r = $resource("./docs/modules.json", {}, {
+			query: {
+				method: "GET",
+				cache: true,
+				isArray: true
+			}
+		});
+		
+		return r.query().$promise;
+	}];
+		
 	$routeProvider.when("/docs", {
-		templateUrl: "./docs/index/index.html",
-		controller: "IndexCtrl",
+		templateUrl: "./docs/modules/bliss.html",
+		controller: "module.IndexCtrl",
 		resolve: {
-			modules: ["$resource", function($resource) {
-				var r = $resource("./docs/modules.json");
-				
-				return r.query().$promise;
-			}]
+			module: _moduleResolve,
+			modules: _moduleListResolve
 		}
 	}).when("/docs/modules/:moduleId/:action?", {
 		templateUrl: function(params) {
@@ -18,14 +46,8 @@ docs.config(["$routeProvider", function($routeProvider) {
 		},
 		controller: "module.IndexCtrl",
 		resolve: {
-			module: ["$resource", "$route", function($resource, $route) {
-				var id = $route.current.params.moduleId;
-				var action = $route.current.params.action || "index";
-				
-				var r = $resource("./docs/modules/"+ id +"/"+ action +".json");
-				
-				return r.get().$promise;
-			}]
+			module: _moduleResolve,
+			modules: _moduleListResolve
 		}
 	});
 }]);

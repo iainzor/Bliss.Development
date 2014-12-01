@@ -1,21 +1,13 @@
 <?php
 namespace Docs\Controller;
 
-use Bliss\String;
+use Docs\Generator;
 
 class ModulesController extends \Bliss\Controller\AbstractController
 {
 	public function indexAction()
 	{
-		$modules = [];
-		
-		foreach ($this->app->modules() as $module) {
-			$modules[] = [
-				"id" => $module->name(),
-				"label" => String::toCamelCase($module->name()),
-				"path" => "docs/modules/{$module->name()}"
-			];
-		}
+		$modules = Generator::generateModuleList($this->app);
 		
 		return $modules;
 	}

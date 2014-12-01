@@ -20,6 +20,13 @@ implements RouteProvider
 			"module" => "docs",
 			"controller" => "module",
 			"action" => "index"
+		])->when("/^docs\/api\/(.*)\.([a-z0-9]+)?$/", [
+			1 => "path",
+			2 => "format"
+		], [
+			"module" => "docs",
+			"controller" => "api",
+			"action" => "reflect"
 		]);
 	}
 }

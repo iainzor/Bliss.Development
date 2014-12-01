@@ -1,7 +1,8 @@
 <?php
 namespace Docs\Controller;
 
-use Bliss\String;
+use Bliss\String,
+	Docs\Generator;
 
 class ModuleController extends \Bliss\Controller\AbstractController
 {
@@ -16,25 +17,26 @@ class ModuleController extends \Bliss\Controller\AbstractController
 		$moduleName = $request->param("moduleName");
 		$actionName = $request->param("actionName");
 		$module = $this->app->module($moduleName);
-		$filename = $module->resolvePath("docs/{$actionName}.html");
-		$contents = $this->_generateContents($filename);
-		$pages = $this->_generatePages($module->resolvePath("docs"), "modules/". $moduleName);
-		$activePage = call_user_func(function($pages) {
+		
+		$moduleData = Generator::generateModule($module, "{$moduleName}/{$actionName}");
+		$moduleData["page"] = call_user_func(function($pages) {
 			foreach ($pages as $page) {
 				if ($page["active"]) {
 					return $page;
 				}
 			}
-		}, $pages);
+		}, $moduleData["pages"]);
 		
-		return [
-			"id" => $module->name(),
-			"label" => String::toCamelCase($module->name()),
-			"contents" => $contents,
-			"pages" => $pages,
-			"page" => $activePage,
-			"isEmpty" => !is_file($filename)
-		];
+		
+		if (!isset($actionName)) {
+			$actionName = $moduleData["page"]["action"];
+		}
+		
+		$filename = $module->resolvePath("docs/{$actionName}.html");
+		$contents = $this->_generateContents($filename);
+		$moduleData["contents"] = $contents;
+		
+		return $moduleData;
 	}
 	
 	/**
@@ -56,7 +58,7 @@ class ModuleController extends \Bliss\Controller\AbstractController
 	{
 		$pages = [];
 		$request = $this->app->request();
-		$currentAction = $request->param("actionName", "index");
+		$currentAction = $request->param("actionName");
 		
 		if (is_dir($dir)) {
 			foreach (new \DirectoryIterator($dir) as $file) {
@@ -64,16 +66,41 @@ class ModuleController extends \Bliss\Controller\AbstractController
 					continue;
 				}
 
-				$basename = $file->getBasename(".html");
-				$label = ($basename === "index") ? "Overview" : String::formatSentences($basename);
-				$uri = "docs/". $path ."/". $basename;
+				$fullname = $file->getBasename(".html");
+				$basename = $fullname;
+				$order = 100;
+				
+				if (preg_match("/^([0-9]+)\-(.*)$/i", $fullname, $matches)) {
+					$order = (int) $matches[1];
+					$basename = $matches[2];
+				}
+				
+				if ($basename === "index") {
+					$label = "Overview";
+					$order = 0;
+				} else {
+					$label = String::unhyphenate($basename);
+				}
+				
+				$uri = "docs/". $path ."/". $fullname;
+				$foundActive = false;
 
 				if ($file->isFile() && $file->getExtension() === "html") {
+					$active = $fullname === $currentAction;
 					$pages[] = [
 						"label" => $label,
 						"path" => $uri,
-						"active" => $basename === $currentAction 
+						"active" => $active,
+						"order" => $order
 					];
+					
+					if ($active) {
+						$foundActive = true;
+					}
+				}
+				
+				if (!$foundActive && count($pages)) {
+					$pages[0]["active"] = true;
 				}
 
 				$dir = $file->getPath() ."/". $basename;
@@ -83,11 +110,11 @@ class ModuleController extends \Bliss\Controller\AbstractController
 			}
 
 			usort($pages, function($a, $b) {
-				if ($a["label"] === "Overview") {
-					return -1;
-				} else {
+				if ($a["order"] === $b["order"]) {
 					return strcasecmp($a["label"], $b["label"]);
 				}
+				
+				return $a["order"] < $b["order"] ? -1 : 1;
 			});
 		}
 		

@@ -1,0 +1,17 @@
+#docs { text-align: justify; }
+
+	#docs ul.methods,
+	#docs ul.properties { padding-left: 0; }
+
+		#docs ul.methods > li,
+		#docs ul.properties > li {
+			list-style: none;
+			margin-bottom: 30px;
+		}
+		
+
+#toc {
+	float: right;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
