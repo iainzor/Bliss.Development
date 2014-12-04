@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<testsuites>
+ <testsuite name="assets">
+  <directory>E:\Development\Bliss\bliss/core\Assets/src</directory>
+ </testsuite>
+ <testsuite name="bliss">
+  <directory>E:\Development\Bliss\bliss/core\Bliss/src</directory>
+ </testsuite>
+ <testsuite name="config">
+  <directory>E:\Development\Bliss\bliss/core\Config/src</directory>
+ </testsuite>
+ <testsuite name="error">
+  <directory>E:\Development\Bliss\bliss/core\Error/src</directory>
+ </testsuite>
+ <testsuite name="request">
+  <directory>E:\Development\Bliss\bliss/core\Request/src</directory>
+ </testsuite>
+ <testsuite name="response">
+  <directory>E:\Development\Bliss\bliss/core\Response/src</directory>
+ </testsuite>
+ <testsuite name="router">
+  <directory>E:\Development\Bliss\bliss/core\Router/src</directory>
+ </testsuite>
+ <testsuite name="view">
+  <directory>E:\Development\Bliss\bliss/core\View/src</directory>
+ </testsuite>
+ <testsuite name="polymer">
+  <directory>E:\Development\xZor/app\Polymer/src</directory>
+ </testsuite>
+ <testsuite name="xzor">
+  <directory>E:\Development\xZor/app\Xzor/src</directory>
+ </testsuite>
+ <testsuite name="docs">
+  <directory>E:\Development\Bliss/bliss/development\Docs/src</directory>
+ </testsuite>
+ <testsuite name="tests">
+  <directory>E:\Development\Bliss/bliss/development\Tests/src</directory>
+ </testsuite>
+ <testsuite name="acl">
+  <directory>E:\Development\Bliss/bliss/auth\Acl/src</directory>
+ </testsuite>
+</testsuites>
