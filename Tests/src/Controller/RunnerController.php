@@ -9,7 +9,7 @@ class RunnerController extends \Bliss\Controller\AbstractController
 		
 		$result = shell_exec("phpunit -c ". __DIR__ ."/config.xml --bootstrap ". __DIR__ ."/autoload.php");
 		
-		return "<pre>{$result}</pre>";
+		return '<pre style="padding: 20px;">'. $result .'</pre>';
 	}
 	
 	private function _generateConfig()

@@ -4,24 +4,31 @@
 	subject to change at any time.
 </div>
 
-<aside id="toc" class="panel panel-default">
-	<header class="panel-heading">
-		Table of Contents
-	</header>
-	<section class="panel-body">
-		<ul class="list-unstyled">
-			<li ng-repeat="module in modules">
-				<h4>
-					<a href="./{{module.path}}">{{module.label}}</a>
-				</h4>
-				<ul ng-if="module.pages.length">
-					<li ng-repeat="page in module.pages">
-						<a href="./{{page.path}}">{{page.label}}</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</section>
+<aside id="toc">
+	<article class="panel panel-default" ng-init="expanded=false;">
+		<header class="panel-heading" ng-click="expanded=!expanded" style="cursor: pointer;">
+			<div class="pull-right">
+				<i class="glyphicon glyphicon-plus" ng-if="!expanded"></i>
+				<i class="glyphicon glyphicon-minus" ng-if="expanded"></i>
+			</div>
+			<span ng-if="expanded">Table of Contents</span>
+			&nbsp;
+		</header>
+		<section class="panel-body" ng-if="expanded">
+			<ul class="list-unstyled">
+				<li ng-repeat="module in modules">
+					<h4>
+						<a href="./{{module.path}}">{{module.label}}</a>
+					</h4>
+					<ul ng-if="module.pages.length">
+						<li ng-repeat="page in module.pages">
+							<a href="./{{page.path}}">{{page.label}}</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+	</article>
 </aside>
 
 <header class="page-header">

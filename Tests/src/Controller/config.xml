@@ -24,6 +24,9 @@
  <testsuite name="view">
   <directory>E:\Development\Bliss\bliss/core\View/src</directory>
  </testsuite>
+ <testsuite name="acl">
+  <directory>E:\Development\Bliss/bliss/auth\Acl/src</directory>
+ </testsuite>
  <testsuite name="polymer">
   <directory>E:\Development\xZor/app\Polymer/src</directory>
  </testsuite>
@@ -35,8 +38,5 @@
  </testsuite>
  <testsuite name="tests">
   <directory>E:\Development\Bliss/bliss/development\Tests/src</directory>
- </testsuite>
- <testsuite name="acl">
-  <directory>E:\Development\Bliss/bliss/auth\Acl/src</directory>
  </testsuite>
 </testsuites>
