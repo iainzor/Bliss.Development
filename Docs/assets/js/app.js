@@ -1,4 +1,4 @@
-docs.config(["$routeProvider", function($routeProvider) {
+bliss.config(["$routeProvider", function($routeProvider) {
 	var _moduleResolve = ["$resource", "$route", function($resource, $route) {
 		var id = $route.current.params.moduleId || "bliss";
 		var action = $route.current.params.action;
@@ -29,10 +29,10 @@ docs.config(["$routeProvider", function($routeProvider) {
 		
 		return r.query().$promise;
 	}];
-		
+	
 	$routeProvider.when("/docs", {
 		templateUrl: "./docs/modules/bliss.html",
-		controller: "module.IndexCtrl",
+		controller: "docs.module.IndexCtrl",
 		resolve: {
 			module: _moduleResolve,
 			modules: _moduleListResolve
@@ -44,7 +44,7 @@ docs.config(["$routeProvider", function($routeProvider) {
 			
 			return "./docs/modules/"+ id +"/"+ action +".html";
 		},
-		controller: "module.IndexCtrl",
+		controller: "docs.module.IndexCtrl",
 		resolve: {
 			module: _moduleResolve,
 			modules: _moduleListResolve
