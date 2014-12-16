@@ -1,15 +1,23 @@
 <?php
 namespace Tests\Controller;
 
+use Tests\Result;
+
 class RunnerController extends \Bliss\Controller\AbstractController
 {
 	public function runAction()
 	{
-		$this->_generateConfig();
+		$request = $this->app->request();
 		
-		$result = shell_exec("phpunit -c ". __DIR__ ."/config.xml --bootstrap ". __DIR__ ."/autoload.php");
-		
-		return '<pre style="padding: 20px;">'. $result .'</pre>';
+		if ($request->param("format") === "json") {
+			$this->_generateConfig();
+
+			$response = shell_exec("phpunit -c ". __DIR__ ."/config.xml --bootstrap ". __DIR__ ."/autoload.php");
+			$result = new Result();
+			$result->parseResponse($response);
+			
+			return $result->toArray();
+		}
 	}
 	
 	private function _generateConfig()
