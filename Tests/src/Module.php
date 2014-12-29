@@ -6,9 +6,10 @@ use Bliss\Module\AbstractModule,
 	View\Partial\InjectorInterface,
 	View\Partial\InjectableInterface,
 	View\Partial\Partial,
-	UnifiedUI\Module as UI;
+	UnifiedUI\Module as UI,
+	Pages\ProviderInterface as PageProvider;
 
-class Module extends AbstractModule implements RouteProvider, InjectorInterface
+class Module extends AbstractModule implements RouteProvider, InjectorInterface, PageProvider
 {
 	public function init()
 	{}
@@ -27,5 +28,13 @@ class Module extends AbstractModule implements RouteProvider, InjectorInterface
 	public function initPartialInjector(InjectableInterface $injectable) 
 	{
 		$injectable->inject(UI::AREA_HEADER_WIDGETS, new Partial($this->resolvePath("layouts/partials/status.phtml")));
+	}
+	
+	public function initPages(\Pages\Container $root) 
+	{
+		$root->add([
+			"title" => "Tests",
+			"path" => "tests"
+		]);
 	}
 }

@@ -1,10 +1,11 @@
 <?php
 namespace Docs;
 
-use Router\ProviderInterface as RouteProvider;
+use Router\ProviderInterface as RouteProvider,
+	Pages\ProviderInterface as PageProvider;
 
 class Module extends \Bliss\Module\AbstractModule
-implements RouteProvider
+implements RouteProvider, PageProvider
 {
 	public function initRouter(\Router\Module $router) 
 	{
@@ -27,6 +28,14 @@ implements RouteProvider
 			"module" => "docs",
 			"controller" => "api",
 			"action" => "reflect"
+		]);
+	}
+	
+	public function initPages(\Pages\Container $root) 
+	{
+		$root->add([
+			"title" => "Documentation",
+			"path" => "docs"
 		]);
 	}
 }

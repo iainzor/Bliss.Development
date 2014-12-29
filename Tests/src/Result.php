@@ -76,12 +76,12 @@ class Result extends \Bliss\Component
 	{
 		$counts = [];
 		if ($this->result === self::RESULT_ERROR) {
-			preg_match("/Tests: ([0-9]+), Assertions: ([0-9]+), Failures: ([0-9]+)/", $this->response, $matches);
+			preg_match("/tests: ([0-9]+), assertions: ([0-9]+), (failures|errors): ([0-9]+)/is", $this->response, $matches);
 			
 			$counts = [
-				"tests" => (int) $matches[1],
-				"assertions" => (int) $matches[2],
-				"failures" => (int) $matches[3]
+				"tests" => isset($matches[1]) ? (int) $matches[1] : 0,
+				"assertions" => isset($matches[2]) ? (int) $matches[2] : 0,
+				"failures" => isset($matches[4]) ? (int) $matches[4] : 0
 			];
 		} else if ($this->result === self::RESULT_SUCCESS) {
 			preg_match("/([0-9]+) tests, ([0-9]+) assertions/", $this->response, $matches);

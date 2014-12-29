@@ -24,6 +24,9 @@
  <testsuite name="view">
   <directory>E:\Development\Bliss\bliss/core\View/src</directory>
  </testsuite>
+ <testsuite name="pages">
+  <directory>E:\Development\Bliss\bliss/web\Pages/src</directory>
+ </testsuite>
  <testsuite name="polymer">
   <directory>E:\Development\Bliss\bliss/web\Polymer/src</directory>
  </testsuite>
@@ -31,10 +34,10 @@
   <directory>E:\Development\Bliss\bliss/web\UnifiedUI/src</directory>
  </testsuite>
  <testsuite name="acl">
-  <directory>E:\Development\Bliss/bliss/auth\Acl/src</directory>
+  <directory>E:\Development\Bliss\bliss/auth\Acl/src</directory>
  </testsuite>
- <testsuite name="xzor">
-  <directory>E:\Development\xZor/app\Xzor/src</directory>
+ <testsuite name="user">
+  <directory>E:\Development\Bliss\bliss/auth\User/src</directory>
  </testsuite>
  <testsuite name="docs">
   <directory>E:\Development\Bliss/bliss/development\Docs/src</directory>
