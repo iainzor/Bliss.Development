@@ -5,14 +5,26 @@ use Tests\Result;
 
 class RunnerController extends \Bliss\Controller\AbstractController
 {
+	private $configPath;
+	
+	public function init()
+	{
+		$this->configPath = $this->app->resolvePath("cache/tests/config.xml");
+		
+		$dir = dirname($this->configPath);
+		if (!is_dir($dir)) {
+			mkdir($dir, 0777, true);
+		}
+	}
+	
 	public function runAction()
 	{
 		$request = $this->app->request();
 		
 		if ($request->param("format") === "json") {
 			$this->_generateConfig();
-
-			$response = shell_exec("phpunit -c ". __DIR__ ."/config.xml --bootstrap ". __DIR__ ."/autoload.php");
+			
+			$response = shell_exec("cd ". $this->app->resolvePath() ." && phpunit -c {$this->configPath} --bootstrap ". __DIR__ ."/autoload.php");
 			$result = new Result();
 			$result->parseResponse($response);
 			
@@ -41,6 +53,6 @@ class RunnerController extends \Bliss\Controller\AbstractController
 		$writer->flush(true);
 		$content = trim(ob_get_clean());
 		
-		file_put_contents(__DIR__ ."/config.xml", $content);
+		file_put_contents($this->configPath, $content);
 	}
 }

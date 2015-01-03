@@ -3,7 +3,7 @@ spl_autoload_register(function($className) {
 	static $xml = null;
 	
 	if ($xml === null) {
-		$xml = new SimpleXMLElement(file_get_contents(__DIR__ ."/config.xml"));
+		$xml = new SimpleXMLElement(file_get_contents("./cache/tests/config.xml"));
 	}
 	$dirs = [];
 
